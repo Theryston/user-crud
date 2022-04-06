@@ -57,17 +57,15 @@ export class UsersController {
     @Query('limit') limit: string,
     @Query('filters') filters: string,
   ) {
-    const filtersObj: FiltersDto = filters.split(',').reduce(
-      (acc, cur) => {
-        const [key, value] = cur.split(':');
-        return { ...acc, [key]: value };
-      },
-      {
-        name: '',
-      },
-    );
-
     try {
+      let filtersObj: FiltersDto;
+      if (filters) {
+        filtersObj = filters.split(',').reduce((acc, cur) => {
+          const [key, value] = cur.split('=');
+          return { ...acc, [key]: value };
+        }, {} as FiltersDto);
+      }
+
       return await this.usersService.findAll({
         page: +page,
         limit: +limit,

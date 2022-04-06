@@ -4,6 +4,8 @@ import { User, Prisma } from '@prisma/client';
 import { ViacepService } from 'src/services/viacep/viacep.service';
 import { PaginationDto } from './dto/pagination.dto';
 
+const ALLOWED_FILTERS = ['name'];
+
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService, private viacep: ViacepService) {}
@@ -68,6 +70,12 @@ export class UsersService {
   async findAll(pagination: PaginationDto) {
     const page = pagination.page || 0;
     const limit = pagination.limit || 10;
+
+    for (const key in pagination.filters) {
+      if (!ALLOWED_FILTERS.includes(key)) {
+        throw new Error(`Invalid filter ${key}`);
+      }
+    }
 
     const users = await this.prisma.user.findMany({
       skip: page * limit,
