@@ -15,6 +15,7 @@ import { UsersService } from './users.service';
 
 import { Prisma } from '@prisma/client';
 import { AccessGuard } from 'src/access.guard';
+import { FiltersDto } from './dto/filters.dto';
 
 @Controller('users')
 export class UsersController {
@@ -51,11 +52,26 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Query('page') page: string, @Query('limit') limit: string) {
+  async findAll(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+    @Query('filters') filters: string,
+  ) {
+    const filtersObj: FiltersDto = filters.split(',').reduce(
+      (acc, cur) => {
+        const [key, value] = cur.split(':');
+        return { ...acc, [key]: value };
+      },
+      {
+        name: '',
+      },
+    );
+
     try {
       return await this.usersService.findAll({
         page: +page,
         limit: +limit,
+        filters: filtersObj,
       });
     } catch (error) {
       throw new HttpException(

@@ -72,16 +72,21 @@ export class UsersService {
     const users = await this.prisma.user.findMany({
       skip: page * limit,
       take: limit,
+      where: {
+        name: {
+          contains: pagination.filters?.name,
+        },
+      },
     });
 
-    const userAmount = await this.prisma.user.count();
+    const usersAmount = await this.prisma.user.count();
 
     return {
       page,
       limit,
       total: users.length,
       data: users,
-      hasNextPage: page * limit < userAmount,
+      hasNextPage: page * limit < usersAmount,
     };
   }
 
