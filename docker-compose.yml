@@ -1,0 +1,22 @@
+version: '3' # versão do yaml
+
+services:
+  user-crud-database:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mysql'
+    container_name: user-crud-database
+    ports:
+      - '3306:3002'
+    volumes:
+      - ./docker/user-crud-database:/var/lib/mysql
+  app:
+    image: user-crud-app
+    container_name: user-crud-app
+    build: .
+    ports:
+      - '3000:3001'
+    depends_on:
+      - user-crud-database
+    volumes:
+      - ./docker/app:/usr/src/app
