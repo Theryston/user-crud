@@ -42,12 +42,20 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return `Change`;
+  findOne(id: number): Promise<User> {
+    if (!id) {
+      throw new Error('Id is required');
+    }
+
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findAll() {
+    return `Change`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
