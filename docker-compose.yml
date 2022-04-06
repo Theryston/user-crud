@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'mysql'
     container_name: user-crud-database
     ports:
-      - '3306:3002'
+      - '3002:3306'
     volumes:
       - ./docker/user-crud-database:/var/lib/mysql
   app:
@@ -15,7 +15,7 @@ services:
     container_name: user-crud-app
     build: .
     ports:
-      - '3000:3001'
+      - '3001:3000'
     depends_on:
       - user-crud-database
     volumes:
