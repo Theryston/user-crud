@@ -3,25 +3,27 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpException,
   HttpStatus,
+  Query,
+  UseGuards,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 import { Prisma } from '@prisma/client';
+import { AccessGuard } from 'src/access.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() userData: Prisma.UserCreateInput) {
+  async create(@Body() userData: Prisma.UserCreateInput) {
     try {
-      return this.usersService.create(userData);
+      return await this.usersService.create(userData);
     } catch (error) {
       throw new HttpException(
         {
@@ -34,9 +36,9 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     try {
-      return this.usersService.findOne(+id);
+      return await this.usersService.findOne(+id);
     } catch (error) {
       throw new HttpException(
         {
@@ -49,17 +51,54 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async findAll(@Query('page') page: string, @Query('limit') limit: string) {
+    try {
+      return await this.usersService.findAll({
+        page: +page,
+        limit: +limit,
+      });
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @UseGuards(AccessGuard)
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.usersService.remove(+id);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() userData: Prisma.UserCreateInput,
+  ) {
+    try {
+      return await this.usersService.update(+id, userData);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

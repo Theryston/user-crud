@@ -1,8 +1,8 @@
-import { Catch, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../services/prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User, Prisma } from '@prisma/client';
 import { ViacepService } from 'src/services/viacep/viacep.service';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class UsersService {
@@ -42,27 +42,98 @@ export class UsersService {
     });
   }
 
-  findOne(id: number): Promise<User> {
+  async findOne(id: number): Promise<User> {
     if (!id) {
       throw new Error('Id is required');
     }
 
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  }
+
+  async findAll(pagination: PaginationDto) {
+    const page = pagination.page || 0;
+    const limit = pagination.limit || 10;
+
+    const users = await this.prisma.user.findMany({
+      skip: page * limit,
+      take: limit,
+    });
+
+    const userAmount = await this.prisma.user.count();
+
+    return {
+      page,
+      limit,
+      total: users.length,
+      data: users,
+      hasNextPage: page * limit < userAmount,
+    };
+  }
+
+  async remove(id: number) {
+    if (!id) {
+      throw new Error('Id is required');
+    }
+
+    const userExists = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!userExists) {
+      throw new Error('User not found');
+    }
+
+    return await this.prisma.user.delete({
       where: {
         id,
       },
     });
   }
 
-  findAll() {
-    return `Change`;
-  }
+  async update(id: number, userData: Prisma.UserCreateInput): Promise<User> {
+    if ((userData as User).id) {
+      throw new Error('Id cannot be updated');
+    }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    if ((userData as User).createdAt) {
+      throw new Error('CreatedAt cannot be updated');
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    if ((userData as User).updatedAt) {
+      throw new Error('UpdatedAt cannot be updated');
+    }
+
+    const userExists = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!userExists) {
+      throw new Error('User not found');
+    }
+
+    const userUpdated = await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        ...userData,
+      },
+    });
+
+    return userUpdated;
   }
 }
