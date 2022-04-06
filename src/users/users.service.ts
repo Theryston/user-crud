@@ -10,6 +10,7 @@ export class UsersService {
 
   async create(userData: Prisma.UserCreateInput): Promise<User> {
     const birthdate: any = new Date(userData.birthdate);
+    const userAge = await this._calculateAge(birthdate);
 
     if (
       !userData.name ||
@@ -21,6 +22,10 @@ export class UsersService {
 
     if (!birthdate || birthdate.toString() === 'Invalid Date') {
       throw new Error('Birthdate is required');
+    }
+
+    if (userAge < 18) {
+      throw new Error('User must be older than 18 years');
     }
 
     if (!userData.zipcode || typeof userData.zipcode !== 'number') {
@@ -135,5 +140,11 @@ export class UsersService {
     });
 
     return userUpdated;
+  }
+
+  private async _calculateAge(birthday: Date) {
+    const ageDifMs = Date.now() - birthday.getTime();
+    const ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 }
