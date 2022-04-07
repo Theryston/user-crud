@@ -1,8 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
-import { Axios } from 'axios';
-
 interface CEP {
   cep: string;
   logradouro: string;
