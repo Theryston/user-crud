@@ -86,7 +86,10 @@ export class UsersController {
   @UseGuards(AccessGuard)
   async remove(@Param('id') id: string) {
     try {
-      return await this.usersService.remove(+id);
+      await this.usersService.remove(+id);
+      return {
+        message: 'User deleted',
+      };
     } catch (error) {
       throw new HttpException(
         {

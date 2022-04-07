@@ -98,7 +98,7 @@ export class UsersService {
     };
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<void> {
     if (!id) {
       throw new Error('Id is required');
     }
@@ -113,11 +113,13 @@ export class UsersService {
       throw new Error('User not found');
     }
 
-    return await this.prisma.user.delete({
+    await this.prisma.user.delete({
       where: {
         id,
       },
     });
+
+    return;
   }
 
   async update(id: number, userData: Prisma.UserCreateInput): Promise<User> {

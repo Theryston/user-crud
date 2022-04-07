@@ -1,6 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
+const ALLOWED_TOKENS = ['meegu'];
+
 @Injectable()
 export class AccessGuard implements CanActivate {
   canActivate(
@@ -9,6 +11,6 @@ export class AccessGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const headers = request.headers;
 
-    return headers['access-token'] === 'meegu';
+    return ALLOWED_TOKENS.includes(headers['access-token']);
   }
 }
