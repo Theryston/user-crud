@@ -27,14 +27,7 @@ for development purposes you can run the project from the following steps:
 yarn
 ```
 
-2. Database. Run the command:
-
-```sh
-yarn database # start database
-yarn prisma migrate dev # run database migrations
-```
-
-3. You need to create a file by name `.env` in root project directory, and add the following content:
+2. You need to create a file by name `.env` in root project directory, and add the following content:
 
 ```txt
 DATABASE_URL=mysql://root:mysql@localhost:3002/user-crud
@@ -44,6 +37,14 @@ if you want you can run the following command to create the file from the comman
 
 ```sh
 echo DATABASE_URL=mysql://root:mysql@localhost:3002/user-crud > .env
+```
+
+3. Database. Run the command:
+
+```sh
+yarn database # start database
+yarn prisma generate # generate prisma client
+yarn prisma migrate dev # run database migrations
 ```
 
 4. running development server:
