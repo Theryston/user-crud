@@ -1,3 +1,4 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 import { Axios } from 'axios';
@@ -17,22 +18,14 @@ interface CEP {
 
 @Injectable()
 export class ViacepService {
-  private viacepProvider: Axios;
+  private baseURL = 'https://viacep.com.br';
 
-  constructor() {
-    this.viacepProvider = new Axios({
-      baseURL: 'https://viacep.com.br/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      transformResponse: (data) => JSON.parse(data),
-    });
-  }
+  constructor(private httpService: HttpService) {}
 
   async getCepData(cep: number): Promise<CEP> {
-    const { data: cepData } = await this.viacepProvider.get<Promise<CEP>>(
-      `/ws/${cep}/json/`,
-    );
+    const { data: cepData } = await this.httpService
+      .get<Promise<CEP>>(`${this.baseURL}/ws/${cep}/json/`)
+      .toPromise();
 
     return cepData;
   }
