@@ -18,12 +18,33 @@ Open your terminal in the folder where you want to start the api, after that typ
 git clone https://github.com/Theryston/user-crud.git
 ```
 
-## Starting with docker
+## Start in development
 
-Now you can start the application quickly and conveniently without many commands using docker, just type in the command line:
+for development purposes you can run the project from the following steps:
+
+1. install dependencies. Run the command:
 
 ```sh
-yarn docker
+yarn
 ```
 
-After that, wait for the action to finish and just open your browser at [http://localhost:3001](http://localhost:3001) and the api will be running there, and the mysql database will be running on part 3002. if you prefer you can also open the [postman collection](https://www.postman.com/Theryston/workspace/open-source/collection/15581030-298aa917-978c-41cc-97fb-3c2b09380dcc?action=share&creator=15581030).
+2. Database. Run the command:
+
+```sh
+yarn database # start database
+yarn prisma migrate dev # run database migrations
+```
+
+3. You need to create a file by name `.env` in root project directory, and add the following content:
+
+```txt
+DATABASE_URL=mysql://root:mysql@localhost:3002/user-crud
+```
+
+4. running development server:
+
+```sh
+yarn start:dev
+```
+
+after this steps your server will be started in [http://localhost:3000](http://localhost:3000) and you can see and test all routes in [postman collection](https://www.postman.com/Theryston/workspace/open-source/collection/15581030-298aa917-978c-41cc-97fb-3c2b09380dcc?action=share&creator=15581030)
