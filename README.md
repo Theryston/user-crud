@@ -53,7 +53,7 @@ yarn prisma migrate dev # run database migrations
 yarn start:dev
 ```
 
-after this steps your server will be started in [http://localhost:3000](http://localhost:3000) and you can see and test all routes in [postman collection](https://www.postman.com/Theryston/workspace/open-source/collection/15581030-298aa917-978c-41cc-97fb-3c2b09380dcc?action=share&creator=15581030)
+after this steps your server will be started in [http://localhost:3000](http://localhost:3000) and you can see all routes in [postman collection](https://www.postman.com/Theryston/workspace/open-source/collection/15581030-298aa917-978c-41cc-97fb-3c2b09380dcc?action=share&creator=15581030)
 
 # Footer
 
