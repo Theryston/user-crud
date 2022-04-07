@@ -1,3 +1,6 @@
+![user-crud-logo](https://user-images.githubusercontent.com/72868196/162207745-79a23a8f-5b90-461e-8acb-3b636bac8709.png)
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
