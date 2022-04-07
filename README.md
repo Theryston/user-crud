@@ -43,7 +43,7 @@ DATABASE_URL=mysql://root:mysql@localhost:3002/user-crud
 if you want you can run the following command to create the file from the command line:
 
 ```sh
-echo "DATABASE_URL=mysql://root:mysql@localhost:3002/user-crud" > .env
+echo DATABASE_URL=mysql://root:mysql@localhost:3002/user-crud > .env
 ```
 
 4. running development server:
