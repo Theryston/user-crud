@@ -1,7 +1,3 @@
-<div style="text-align: center">
-<img src="https://user-images.githubusercontent.com/72868196/162207745-79a23a8f-5b90-461e-8acb-3b636bac8709.png"/>
-</div>
-
 # About
 
 Make user management without worrying about api or backend, with this api you can create, delete and update users from a mysql database.
