@@ -13,7 +13,8 @@ Learn here how to install, install dependencies, and run the api on your local m
 Open your terminal in the folder where you want to start the api, after that type the following command in your terminal:
 
 ```sh
-git clone https://github.com/Theryston/user-crud.git
+git clone https://github.com/Theryston/user-crud.git # clone repository
+cd user-crud # change directory to project page
 ```
 
 ## Start in development
