@@ -26,4 +26,4 @@ Now you can start the application quickly and conveniently without many commands
 yarn docker
 ```
 
-After that, wait for the action to finish and just open your browser at [http://localhost:3001](http://localhost:3001) and the api will be running there, and the mysql database will be running on part 3002. if you prefer you can also open the [collection in postman](https://www.postman.com/Theryston/workspace/open-source/collection/15581030-298aa917-978c-41cc-97fb-3c2b09380dcc?action=share&creator=15581030).
+After that, wait for the action to finish and just open your browser at [http://localhost:3001](http://localhost:3001) and the api will be running there, and the mysql database will be running on part 3002. if you prefer you can also open the [postman collection](https://www.postman.com/Theryston/workspace/open-source/collection/15581030-298aa917-978c-41cc-97fb-3c2b09380dcc?action=share&creator=15581030).
